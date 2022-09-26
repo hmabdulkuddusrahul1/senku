@@ -1,0 +1,22 @@
+{
+    "name": "mateodioev/senku",
+    "description": "Senku tg bot",
+    "type": "project",
+    "require": {
+        "mateodioev/tgbot": "^1.2",
+        "mateodioev/tg-handler": "^1.1",
+        "mateodioev/db": "^1.1",
+        "mateodioev/translate": "^1.1",
+        "mateodioev/request": "^2.0",
+        "mateodioev/utils": "^1.3"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Mateodioev\\Senku\\": "src/"
+        },
+        "files": [
+          "src/helpers.php"
+        ]
+    }
+}

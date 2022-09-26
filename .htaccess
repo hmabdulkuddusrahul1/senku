@@ -1,0 +1,10 @@
+Options -Indexes
+IndexIgnore *
+
+<FilesMatch "\.(htaccess|htpasswd|ini|phps|log|bak|txt|sql|json|lock|env)$">
+ Order Allow,Deny
+ Deny from all
+</FilesMatch>
+
+ErrorDocument 403 /error.php?code=404
+ErrorDocument 404 /error.php?code=404
