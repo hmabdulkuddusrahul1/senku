@@ -1,3 +1,6 @@
 /vendor/
 /tests/
+/files/
+
+composer.lock
 .env
