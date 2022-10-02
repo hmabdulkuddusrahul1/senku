@@ -21,6 +21,8 @@ class Midlewares
    */
   public function onUpdate(Commands $cmd)
   {
+    echo $this->getCommand($cmd) . "\n";
+    return;
     if ($this->getCommand($cmd) != '') {
       Connection::PrepareFromEnv(__DIR__);
       Connection::addCharset();

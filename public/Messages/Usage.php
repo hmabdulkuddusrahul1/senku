@@ -5,6 +5,7 @@ namespace Senku\Commands\Messages;
 use Mateodioev\Bots\Telegram\Buttons;
 use Mateodioev\Bots\Telegram\Methods;
 use Mateodioev\TgHandler\Commands;
+use Mateodioev\Utils\fakeStdClass;
 use Senku\Commands\Messages\Message;
 
 use function Mateodioev\Senku\{code, i, n};
@@ -34,15 +35,14 @@ class Usage extends Message
     return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
   }
 
-  public function getMemory(Methods $bot, Commands $cmd): int
+  public function getMemory(Methods $bot, Commands $cmd): fakeStdClass
   {
     $this->addButtonAndReply($bot, $cmd);
 
-    $bot->sendMessage(
+    return $bot->sendMessage(
       $cmd->getChatId(),
       $this->createText()
     );
-    return 1;
   }
 
   public function onReload(Methods $bot, Commands $cmd)

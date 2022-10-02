@@ -5,6 +5,7 @@ namespace Senku\Commands\Messages;
 use Mateodioev\Bots\Telegram\Methods;
 use Mateodioev\Request\Request;
 use Mateodioev\TgHandler\Commands;
+use Mateodioev\Utils\fakeStdClass;
 use Mateodioev\Utils\Files;
 use Senku\Commands\Messages\Message;
 use stdClass;
@@ -39,24 +40,22 @@ class Extra extends Message
 
     file_put_contents($file, $ccs);
 
-    $bot->sendDocument([
+    $res = $bot->sendDocument([
       'document' => Files::tryOpen($file),
       'caption' => 'Total cards: ' . $data->data->total
     ]);
     unlink($file);
-    return 1;
+    return $res;
   }
 
-  private function onEmpty(Methods $bot, Commands $cmd): int
+  private function onEmpty(Methods $bot, Commands $cmd): fakeStdClass
   {
-      $bot->sendMessage($cmd->getChatId(), 'Please put one bin to search');
-      return 1;
+      return $bot->sendMessage($cmd->getChatId(), 'Please put one bin to search');
   }
 
-  private function onInvalid(Methods $bot, Commands $cmd): int
+  private function onInvalid(Methods $bot, Commands $cmd): fakeStdClass
   {
-    $bot->sendMessage($cmd->getChatId(), 'Not found');
-    return 1;
+    return $bot->sendMessage($cmd->getChatId(), 'Not found');
   }
 
   public static function search(string $bin): stdClass
