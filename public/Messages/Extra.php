@@ -58,7 +58,7 @@ class Extra extends Message
     return $bot->sendMessage($cmd->getChatId(), 'Not found');
   }
 
-  public static function search(string $bin): stdClass
+  public static function search(string $bin): fakeStdClass
   {
       return Request::get(self::URL . '/get')
           ->Run('/'.$bin)

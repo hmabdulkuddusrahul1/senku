@@ -34,3 +34,7 @@ function u(string $str): string {
 function n(): string {
   return PHP_EOL;
 }
+
+function a(string $link, string $label) {
+  return '<a href="' . $link . '">' . $label . '</a>';
+}

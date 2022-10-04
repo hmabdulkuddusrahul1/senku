@@ -2,8 +2,10 @@
 
 namespace Senku\Commands\Plugins;
 
+use Mateodioev\Bots\Telegram\Methods;
 use Mateodioev\Db\Connection;
 use Mateodioev\TgHandler\Commands;
+use Mateodioev\TgHandler\Runner;
 
 class Midlewares
 {
@@ -21,11 +23,16 @@ class Midlewares
    */
   public function onUpdate(Commands $cmd)
   {
-    echo $this->getCommand($cmd) . "\n";
-    return;
     if ($this->getCommand($cmd) != '') {
       Connection::PrepareFromEnv(__DIR__);
       Connection::addCharset();
     }
+  }
+
+  public function leaveAll(Runner &$run, Methods $bot, Commands $cmd)
+  {
+    echo 'Hola' . "\n";
+    $run->log('Leaving chat: ' . $cmd->getChatId());
+    return $bot->leaveChat(['chat_id' => $cmd->ChatId]);
   }
 }
