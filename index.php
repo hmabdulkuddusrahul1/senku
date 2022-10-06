@@ -26,10 +26,12 @@ $commands->CmdMessage('start', 'Messages\Start@send', [$bot])
   ->CmdMessage(['google', 'g'], 'Messages\Google@start', [$bot])
   ->CmdMessage(['youtube', 'yt'], 'Messages\Youtube@start', [$bot])
   ->CmdMessage('qr', 'Messages\Qr@start', [$bot])
-  ->CmdMessage('qread', 'Messages\Qr@read', [$bot]);
+  ->CmdMessage('qread', 'Messages\Qr@read', [$bot])
+  ->CmdMessage(['crypto', 'coin', 'p'], 'Messages\Crypto@start', [$bot]);
 
 $commands->CmdCallback('clima', 'Callbacks\reloadClima@edit', [$bot])
-  ->CmdCallback('usage', 'Callbacks\reloadUsage@edit', [$bot]);
+  ->CmdCallback('usage', 'Callbacks\reloadUsage@edit', [$bot])
+  ->CmdCallback('coin', 'Callbacks\reloadCrypto@edit', [$bot]);
 
 // ->CmdMessage(['gen', 'ccgen'], 'Messages\CardGen@start', [$bot])
 // ->CmdMessage(['crypto', 'p'], '', [])

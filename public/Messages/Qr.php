@@ -48,7 +48,7 @@ class Qr extends Message
     $file_url = $doc;
     if (!Network::IsValidUrl($doc)) {
       // Get document data from telegram servers
-      $file = $bot->getFile(['file_id' => $doc]);
+      $file = $bot->getFile(['file_id' => $doc]); // Method no supported in test mode
       if (!$file->ok) {
         return $bot->sendMessage($cmd->getChatId(), '<b>Fail to fetch file data</b>');
       }
