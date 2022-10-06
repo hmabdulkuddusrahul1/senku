@@ -7,7 +7,7 @@ use Mateodioev\Request\Request;
 use Mateodioev\TgHandler\Commands;
 use Mateodioev\Utils\fakeStdClass;
 
-use function Mateodioev\Senku\{code, i, n};
+use function Mateodioev\Senku\{b, code, i, n};
 
 class Message
 {
@@ -33,7 +33,7 @@ class Message
   }
 
   protected function sendDefaultEmpty(Methods $bot, Commands $cmd, string $label, string $use = ''): fakeStdClass {
-    $txt = i($label) .
+    $txt = i(b($label)) .
       n() . i('Example: ') . code('/' . $this->getCommand($cmd) . ' ' . $use);
     
     return $bot->sendMessage($cmd->getChatId(), $txt);
