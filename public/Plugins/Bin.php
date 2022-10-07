@@ -19,7 +19,7 @@ class Bin extends QueryMaker
 
   /**
    * @param string $bin Bin to search
-   * @return boolean|array Return array on success, bool on failure
+   * @return boolean|fakeStdClass Return array on success, bool on failure
    */
   public function search(string $bin): bool|fakeStdClass
   {

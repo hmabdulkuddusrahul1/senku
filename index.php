@@ -2,12 +2,15 @@
 
 use Dotenv\Dotenv;
 use Mateodioev\Bots\Telegram\Methods;
+use Mateodioev\Db\Connection;
 use Mateodioev\PhpEasyCli\App as CliApp;
 use Mateodioev\TgHandler\{Commands, Runner};
 
 require __DIR__ . '/vendor/autoload.php';
 
 Dotenv::createMutable(__DIR__)->load();
+Connection::PrepareFromEnv(__DIR__);
+Connection::addCharset();
 $bot = (new Methods($_ENV['BOT_TOKEN']));#->setTestEnviroment(true);
 $bot->timeout = 10;
 
@@ -17,7 +20,7 @@ $runner = new Runner($commands);
 
 $commands->on('message|callback|inline', 'Plugins\Midlewares@onUpdate');
 
-$commands->CmdMessage('start', 'Messages\Start@send', [$bot])
+$commands#->CmdMessage('start', 'Messages\Start@send', [$bot])
   ->CmdMessage(['cmds', 'help'], 'Messages\Start@myCommands', [$bot])
   ->CmdMessage('extra', 'Messages\Extra@start', [$bot])
   ->CmdMessage('usage', 'Messages\Usage@getMemory', [$bot])
@@ -27,14 +30,15 @@ $commands->CmdMessage('start', 'Messages\Start@send', [$bot])
   ->CmdMessage(['youtube', 'yt'], 'Messages\Youtube@start', [$bot])
   ->CmdMessage('qr', 'Messages\Qr@start', [$bot])
   ->CmdMessage('qread', 'Messages\Qr@read', [$bot])
-  ->CmdMessage(['crypto', 'coin', 'p'], 'Messages\Crypto@start', [$bot]);
+  ->CmdMessage(['crypto', 'coin', 'p'], 'Messages\Crypto@start', [$bot])
+  ->CmdMessage('bin', 'Messages\BinInfo@send', [$bot])
+  ->CmdMessage(['git', 'github'], 'Messages\Github@start', [$bot]);
 
 $commands->CmdCallback('clima', 'Callbacks\reloadClima@edit', [$bot])
   ->CmdCallback('usage', 'Callbacks\reloadUsage@edit', [$bot])
   ->CmdCallback('coin', 'Callbacks\reloadCrypto@edit', [$bot]);
 
 // ->CmdMessage(['gen', 'ccgen'], 'Messages\CardGen@start', [$bot])
-// ->CmdMessage(['crypto', 'p'], '', [])
 // ->CmdMessage(['dicc', 'diccionario', 'meaning'], '', [])
 // ->CmdMessage(['animales'], '', [])
 // ->CmdMessage(['wiki', 'wikipedia'], '', [])
@@ -43,6 +47,5 @@ $commands->CmdCallback('clima', 'Callbacks\reloadClima@edit', [$bot])
 // ->CmdMessage(['tr'], '', [])
 // ->CmdMessage(['ip'], '', [])
 // ->CmdMessage(['git'], '', [])
-// ->CmdMessage(['bin'], '', []);
 
 $runner->setCliApp($cli)->setBot($bot)->activateLog(true)->longPolling();
