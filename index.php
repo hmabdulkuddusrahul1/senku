@@ -18,34 +18,34 @@ $commands = (new Commands('\Senku\Commands', ['!', '.', '/']))->setBotUsername($
 $cli = new CliApp;
 $runner = new Runner($commands);
 
-$commands->on('message|callback|inline', 'Plugins\Midlewares@onUpdate');
+$commands->on('message|callback|inline', 'Plugins\Midlewares@onUpdate')
+  ->on('message', 'Plugins\Midlewares@chatBot', [$bot]);
 
 $commands#->CmdMessage('start', 'Messages\Start@send', [$bot])
-  ->CmdMessage(['cmds', 'help'], 'Messages\Start@myCommands', [$bot])
   ->CmdMessage('extra', 'Messages\Extra@start', [$bot])
   ->CmdMessage('usage', 'Messages\Usage@getMemory', [$bot])
-  ->CmdMessage('log', 'Messages\Logs@send', [&$runner, $bot])
-  ->CmdMessage(['clima', 'wheater'], 'Messages\Clima@send', [$bot])
-  ->CmdMessage(['google', 'g'], 'Messages\Google@start', [$bot])
-  ->CmdMessage(['youtube', 'yt'], 'Messages\Youtube@start', [$bot])
+  # ->CmdMessage('log', 'Messages\Logs@send', [&$runner, $bot])
   ->CmdMessage('qr', 'Messages\Qr@start', [$bot])
   ->CmdMessage('qread', 'Messages\Qr@read', [$bot])
-  ->CmdMessage(['crypto', 'coin', 'p'], 'Messages\Crypto@start', [$bot])
   ->CmdMessage('bin', 'Messages\BinInfo@send', [$bot])
-  ->CmdMessage(['git', 'github'], 'Messages\Github@start', [$bot]);
+  ->CmdMessage('write', 'Messages\Write@send', [$bot])
+  ->CmdMessage(['clima', 'wheater'], 'Messages\Clima@send', [$bot])
+  ->CmdMessage(['google', 'g'], 'Messages\Google@start', [$bot])
+  ->CmdMessage(['cmds', 'help'], 'Messages\Start@myCommands', [$bot])
+  ->CmdMessage(['youtube', 'yt'], 'Messages\Youtube@start', [$bot])
+  ->CmdMessage(['git', 'github'], 'Messages\Github@start', [$bot])
+  ->CmdMessage(['wiki', 'wikipedia'], 'Messages\Wikipedia@start', [$bot])
+  ->CmdMessage(['crypto', 'coin', 'p'], 'Messages\Crypto@start', [$bot])
+  ->CmdMessage(['dicc', 'diccionario', 'meaning'], 'Messages\Dictionary@start', [$bot]);
 
 $commands->CmdCallback('clima', 'Callbacks\reloadClima@edit', [$bot])
   ->CmdCallback('usage', 'Callbacks\reloadUsage@edit', [$bot])
   ->CmdCallback('coin', 'Callbacks\reloadCrypto@edit', [$bot]);
 
 // ->CmdMessage(['gen', 'ccgen'], 'Messages\CardGen@start', [$bot])
-// ->CmdMessage(['dicc', 'diccionario', 'meaning'], '', [])
-// ->CmdMessage(['animales'], '', [])
-// ->CmdMessage(['wiki', 'wikipedia'], '', [])
 // ->CmdMessage(['write'], '', [])
 // ->CmdMessage(['gbin'], '', [])
 // ->CmdMessage(['tr'], '', [])
 // ->CmdMessage(['ip'], '', [])
-// ->CmdMessage(['git'], '', [])
 
 $runner->setCliApp($cli)->setBot($bot)->activateLog(true)->longPolling();

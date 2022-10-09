@@ -4,6 +4,7 @@ namespace Senku\Commands\Plugins;
 
 use Mateodioev\Bots\Telegram\Methods;
 use Mateodioev\Db\Connection;
+use Mateodioev\Safone\Client;
 use Mateodioev\TgHandler\Commands;
 use Mateodioev\TgHandler\Runner;
 
@@ -26,6 +27,19 @@ class Midlewares
     if ($this->getCommand($cmd) != '') {
       Connection::PrepareFromEnv(__DIR__);
       Connection::addCharset();
+    }
+  }
+
+  public function chatBot(Methods $bot, Commands $cmd)
+  {
+    if (empty($this->getCommand($cmd)) && !empty($cmd->getText()) && $cmd->getChatType() == 'private') {
+      $safone = new Client;
+
+      $res = $safone->chatBot($cmd->getText(), $cmd->getUserId(), $cmd->bot_username)
+        ->toJson(true)
+        ->getBody();
+      
+      return $bot->sendMessage($cmd->getChatId(), $res->answer);
     }
   }
 
