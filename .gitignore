@@ -4,4 +4,4 @@
 /.vscode/
 
 composer.lock
-.env
+*.env
