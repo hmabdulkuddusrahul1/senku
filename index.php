@@ -30,6 +30,7 @@ $commands#->CmdMessage('start', 'Messages\Start@send', [$bot])
   ->CmdMessage('ip', 'Messages\IpInfo@start', [$bot])
   ->CmdMessage('qread', 'Messages\Qr@read', [$bot])
   ->CmdMessage('bin', 'Messages\BinInfo@send', [$bot])
+  ->CmdMessage('gbin', 'Messages\BinInfo@gBin', [$bot])
   ->CmdMessage('write', 'Messages\Write@send', [$bot])
   ->CmdMessage(['clima', 'wheater'], 'Messages\Clima@send', [$bot])
   ->CmdMessage(['google', 'g'], 'Messages\Google@start', [$bot])
@@ -43,6 +44,7 @@ $commands#->CmdMessage('start', 'Messages\Start@send', [$bot])
 $commands->CmdCallback('clima', 'Callbacks\reloadClima@edit', [$bot])
   ->CmdCallback('usage', 'Callbacks\reloadUsage@edit', [$bot])
   ->CmdCallback('coin', 'Callbacks\reloadCrypto@edit', [$bot])
+  ->CmdCallback('bin', 'Callbacks\Bin@start', [$bot])
   ->CmdCallback('ip', 'Callbacks\IpMap@edit', [$bot]);
 
 $commands->CmdInline('bin', 'Inline\Bin@start', [$bot]);
@@ -51,6 +53,5 @@ $commands->CmdInline('bin', 'Inline\Bin@start', [$bot]);
 // ->CmdMessage(['write'], '', [])
 // ->CmdMessage(['gbin'], '', [])
 // ->CmdMessage(['tr'], '', [])
-// ->CmdMessage(['ip'], '', [])
 
 $runner->setCliApp($cli)->setBot($bot)->activateLog(true)->longPolling();

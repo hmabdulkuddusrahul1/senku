@@ -2,6 +2,7 @@
 
 namespace Senku\Commands\Messages;
 
+use Mateodioev\Bots\Telegram\Buttons;
 use Mateodioev\Bots\Telegram\Methods;
 use Mateodioev\TgHandler\Commands;
 use Mateodioev\Utils\fakeStdClass;
@@ -51,5 +52,23 @@ class BinInfo extends Message
     }
 
     return $bot->sendMessage($cmd->getChatId(), $this->parseInfo($fim));
+  }
+
+  public function gBin(Methods $bot, Commands $cmd)
+  {
+    $this->addReply($bot, $cmd);
+
+    return $bot->AddOpt([
+      'reply_markup' => (string) $this->getGBinButtons()
+    ])->sendMessage($cmd->getChatId(), 'Please select a type of bin to generate');
+  }
+
+  protected function getGBinButtons(): Buttons
+  {
+    return Buttons::create(others_params: ['resize_keyboard' => true])
+      ->addCeil(['text' => 'Amex', 'callback_data' => 'bin gen 3'])
+      ->addCeil(['text' => 'Visa', 'callback_data' => 'bin gen 4'])->AddLine()
+      ->addCeil(['text' => 'Mastercard', 'callback_data' => 'bin gen 5'])
+      ->addCeil(['text' => 'Discover', 'callback_data' => 'bin gen 6']);
   }
 }
