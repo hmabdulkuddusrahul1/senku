@@ -25,6 +25,7 @@ $commands#->CmdMessage('start', 'Messages\Start@send', [$bot])
   ->CmdMessage('extra', 'Messages\Extra@start', [$bot])
   ->CmdMessage('usage', 'Messages\Usage@getMemory', [$bot])
   # ->CmdMessage('log', 'Messages\Logs@send', [&$runner, $bot])
+  ->CmdMessage('tests', 'Messages\Tests@start', [$bot])
   ->CmdMessage('qr', 'Messages\Qr@start', [$bot])
   ->CmdMessage('ip', 'Messages\IpInfo@start', [$bot])
   ->CmdMessage('qread', 'Messages\Qr@read', [$bot])
@@ -43,6 +44,8 @@ $commands->CmdCallback('clima', 'Callbacks\reloadClima@edit', [$bot])
   ->CmdCallback('usage', 'Callbacks\reloadUsage@edit', [$bot])
   ->CmdCallback('coin', 'Callbacks\reloadCrypto@edit', [$bot])
   ->CmdCallback('ip', 'Callbacks\IpMap@edit', [$bot]);
+
+$commands->CmdInline('bin', 'Inline\Bin@start', [$bot]);
 
 // ->CmdMessage(['gen', 'ccgen'], 'Messages\CardGen@start', [$bot])
 // ->CmdMessage(['write'], '', [])

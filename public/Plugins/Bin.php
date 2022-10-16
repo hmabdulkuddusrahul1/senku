@@ -37,8 +37,8 @@ class Bin extends QueryMaker
   {
     $bin = substr(Utils::removeLetters($bin), 0, 6);
     $query = (string) $this->select()->like($this->id, ':number')->limit($limit, $offset)->getQuery();
-    
-    $res = $this->GetAll($query, ['number' => '%' . $bin])['rows'];
+
+    $res = $this->GetAll($query, ['number' => $bin . '%'])['rows'];
 
     foreach ($res as $row) {
       yield new fakeStdClass((object) $row);
