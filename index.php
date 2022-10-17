@@ -47,7 +47,8 @@ $commands->CmdCallback('clima', 'Callbacks\reloadClima@edit', [$bot])
   ->CmdCallback('bin', 'Callbacks\Bin@start', [$bot])
   ->CmdCallback('ip', 'Callbacks\IpMap@edit', [$bot]);
 
-$commands->CmdInline('bin', 'Inline\Bin@start', [$bot]);
+$commands->CmdInline('bin', 'Inline\Bin@start', [$bot])
+  ->CmdInline('wiki', 'Inline\Wiki@start', [$bot]);
 
 // ->CmdMessage(['gen', 'ccgen'], 'Messages\CardGen@start', [$bot])
 // ->CmdMessage(['write'], '', [])
