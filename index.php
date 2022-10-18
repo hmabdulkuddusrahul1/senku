@@ -19,7 +19,8 @@ $cli = new CliApp;
 $runner = new Runner($commands);
 
 $commands->on('message|callback|inline', 'Plugins\Midlewares@onUpdate')
-  ->on('message', 'Plugins\Midlewares@chatBot', [$bot]);
+  ->on('message', 'Plugins\Midlewares@chatBot', [$bot])
+  ->on('inline', 'Inline\Handler@start', [$bot]);
 
 $commands#->CmdMessage('start', 'Messages\Start@send', [$bot])
   ->CmdMessage('extra', 'Messages\Extra@start', [$bot])
