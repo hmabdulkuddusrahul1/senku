@@ -16,9 +16,16 @@ class Extra extends Message
 {
   private const URL = 'http://46.101.31.22/api';
 
+  private function downMode(Methods $bot, Commands $cmd): fakeStdClass
+  {
+    return $bot->sendMessage($cmd->getChatId(), '⚠️ <b>Down mode</b> ⚠️');
+  }
+
   public function start(Methods $bot, Commands $cmd)
   {
     $this->addReply($bot, $cmd);
+    return $this->downMode($bot, $cmd);
+
     $payload = $cmd->getPayload();
 
     if (empty($payload) || strlen($payload) < 6) {

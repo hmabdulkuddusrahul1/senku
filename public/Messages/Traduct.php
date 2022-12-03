@@ -2,15 +2,13 @@
 
 namespace Senku\Commands\Messages;
 
-use Mateodioev\Bots\Telegram\Methods;
-use Mateodioev\TgHandler\Commands;
 use Mateodioev\{Translate, TranslateException};
-use Mateodioev\Bots\Telegram\Buttons;
+use Mateodioev\Bots\Telegram\{Methods, Buttons};
+use Mateodioev\TgHandler\Commands;
 use Mateodioev\Utils\{Arrays, fakeStdClass, Numbers};
 
 use function Mateodioev\Senku\{b, i, n, xQuit};
-use function explode, trim, substr, strlen, ucfirst, sprintf;
-use function file_put_contents, file_get_contents, json_encode, json_decode;
+use function explode, trim, substr, strlen, ucfirst, sprintf, file_put_contents, file_get_contents, json_encode, json_decode;
 
 class Traduct extends Message
 {

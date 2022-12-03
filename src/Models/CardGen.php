@@ -133,7 +133,7 @@ class CardGen
     while (\strlen($prefix) < $length-1) {
       $prefix .= Numbers::genRandom();
     }
-    return (int) $prefix . Luhn::calculateCheckDigit($prefix);
+    return (int) ($prefix . Luhn::calculateCheckDigit($prefix));
   }
 
   private function genCvv(): string

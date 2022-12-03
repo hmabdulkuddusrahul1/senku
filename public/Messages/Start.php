@@ -2,6 +2,7 @@
 
 namespace Senku\Commands\Messages;
 
+use Mateodioev\Bots\Telegram\Buttons;
 use Mateodioev\Bots\Telegram\Methods;
 use Mateodioev\TgHandler\Commands;
 use Mateodioev\Utils\fakeStdClass;
@@ -14,7 +15,11 @@ class Start extends Message
   {
     $this->addReply($bot, $cmd);
 
-    return $bot->sendMessage($cmd->getChatId(), 'Hola!');
+    $bot->AddOpt([
+      'reply_markup' => (string) Buttons::create(others_params: ['resize_keyboard' => true])
+        ->addCeil(['text' => 'Author', 'url' => 'https://github.com/Mateodioev'])
+    ]);
+    return $bot->sendMessage($cmd->getChatId(), 'Hola!, escribe ' . b('/help') . ' para ver los comandos disponibles');
   }
 
   public function myCommands(Methods $bot, Commands $cmd)

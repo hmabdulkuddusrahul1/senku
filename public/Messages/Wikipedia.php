@@ -17,7 +17,7 @@ class Wikipedia extends Message
 
   protected function getButton(array $res): string
   {
-    $b = Buttons::create();
+    $b = Buttons::create(others_params: ['resize_keyboard' => true]);
 
     foreach ($res as $r) {
       $b->addCeil(['text' => $r['title'], 'url' => $r['link']])->AddLine();

@@ -31,6 +31,7 @@ class Usage extends Message
 
   public static function convert($size): string
   {
+    $i = 0; // only for ignore linter warning
     $unit=array('b','kb','mb','gb','tb','pb');
     return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
   }

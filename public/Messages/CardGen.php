@@ -27,5 +27,7 @@ class CardGen extends Message
     if (empty($payload) || strlen($payload) < 6) {
       return $this->onEmpty($bot, $cmd);
     }
+
+    return $bot->sendMessage($cmd->getChatId(), 'Coming soon');
   }
 }

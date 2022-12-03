@@ -67,7 +67,7 @@ class Dictionary extends Message
     
   }
 
-  protected function getPhonetic(array $phonetics): array|false
+  protected function getPhonetic(array $phonetics): array|bool
   {
     foreach ($phonetics as $i) {
       if (isset($i['text']) && isset($i['audio'])) {

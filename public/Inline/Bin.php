@@ -56,10 +56,9 @@ class Bin extends BinInfo
     }
 
     $offset = (int) $cmd->getInlineOffset() ?? 0;
-    $fims = (new PluginsBin)->getSimilar($payload, 50, $offset);
     $res = [];
 
-    foreach ($fims as $fim) {
+    foreach ((new PluginsBin)->getSimilar($payload, 50, $offset) as $fim) {
       $res[] = $this->in->Article([
         'title' => $fim->bin . ' (' . $fim->flag . ')',
         'description' => $fim->brand . ' - ' . $fim->type .  ' - ' . $fim->level,
