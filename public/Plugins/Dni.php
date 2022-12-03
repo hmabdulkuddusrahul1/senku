@@ -3,8 +3,7 @@
 namespace Senku\Commands\Plugins;
 
 use Mateodioev\Request\Request;
-use Mateodioev\Senku\Exceptions\DniErrorException;
-use Mateodioev\Senku\Exceptions\DniNotFoundException;
+use Mateodioev\Senku\Exceptions\{DniErrorException, DniNotFoundException};
 
 use function json_encode;
 
