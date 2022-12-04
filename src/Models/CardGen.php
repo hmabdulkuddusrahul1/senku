@@ -7,6 +7,8 @@ use RuntimeException, UnexpectedValueException;
 
 class CardGen
 {
+  protected static string $regex = "[\[\dxrand\]\{6,16\}]*[\[\d\]\[x\]\[rnd\]\[rand\]]{1,4}";
+
   public int $mount = 10;
   private array $card = ['cc' => '', 'mm' => '', 'yy' => '', 'cvv' => ''];
   private array $details = [
@@ -15,6 +17,29 @@ class CardGen
   ];
 
   private array $gen_cards = [];
+
+
+  public static function extract(string $input): ?array
+  {
+    $cc = \str_replace(['|', '/', ':', "\n", "\t", ' '], ' ', \strtolower($input));
+    \preg_match_all("/" . self::$regex . "/i", $cc, $matches);
+
+    $card = [];
+    foreach ($matches[0] as $cc) {
+      if (\preg_match("/[\dxrand]{6,16}/i", $cc)) {
+        $card[] = $cc;
+      } elseif (\preg_match("/\d/", $cc)) {
+        $card[] = $cc;
+      } elseif (\in_array($cc, ['rnd', 'rand', 'random', 'xxxx', 'xxx', 'xx', 'x'])) {
+        $card[] = $cc;
+      } else {
+        continue;
+      }
+    }
+    if (empty($card))
+      return null;
+    return $card;
+  }
 
   public function SetMount(int $mount): CardGen
   {
@@ -43,6 +68,9 @@ class CardGen
   {
     $this->card['mm'] = $mes;
 
+    if (!Numbers::isNumber($mes))
+      return $this;
+
     if (!empty($mes) && ($mes < 1 || $mes > 12)) {
       throw new UnexpectedValueException('Invalid mounth');
     }
@@ -52,6 +80,9 @@ class CardGen
   public function SetYear(string $year): CardGen
   {
     $this->card['yy'] = $year;
+
+    if (!Numbers::isNumber($year))
+      return $this;
 
     if (!empty($year) && ($year < \date('Y') || $year > \date('Y') + 10)) {
       throw new UnexpectedValueException('Invalid year');
@@ -64,6 +95,9 @@ class CardGen
   public function SetCVV(string $cvv): CardGen
   {
     $this->card['cvv'] = $cvv;
+
+    if (!Numbers::isNumber($cvv))
+      return $this;
 
     if (!empty($cvv) && (($cvv < 100 || $cvv > 9999) || \strlen($cvv) != $this->details['length']['cvv'])) {
       throw new UnexpectedValueException('Invalid cvv');
@@ -85,12 +119,12 @@ class CardGen
     $unique = [];
     $cc = [];
     foreach ($cards as $ccs) {
-      if (in_array($ccs[0], $unique) === false) {
+      if (\in_array($ccs[0], $unique) === false) {
         $unique[] = $ccs[0];
-        $cc[] = implode('|', $ccs);
+        $cc[] = \implode('|', $ccs);
       }
     }
-    return array_slice($cc, 0, $this->mount);
+    return \array_slice($cc, 0, $this->mount);
   }
 
   /**
@@ -119,6 +153,16 @@ class CardGen
     return \preg_replace('/[^0-9]/', $replace, $str);
   }
 
+  private function complete(string $input, int $length, int $min = 0)
+  {
+    $input = $this->quitString($input);
+    
+    while (\strlen($input) < $length) {
+      $input .= \mt_rand($min, 9);
+    }
+
+    return $input;
+  }
   /**
    * Complete card with luhn
    */
@@ -164,10 +208,11 @@ class CardGen
   private function genYear(): string
   {
     $year = $this->quitString($this->card['yy']);
+    $actualYear = \date('Y');
     if (!empty($year)) {
-      return $year;
+      return $this->complete($year, 4, substr($actualYear, -1));
     } else {
-      return \mt_rand(\date('Y'), \date('Y') + 10);
+      return \mt_rand($actualYear, $actualYear + 10);
     }
   }
 
@@ -177,8 +222,8 @@ class CardGen
   private function validate(int $porcentage = 90)
   {
     // 10 ccs generate
-    $total = count($this->gen_cards); // 10
-    $ccs = count(array_unique($this->gen_cards)); // 9
+    $total = \count($this->gen_cards); // 10
+    $ccs = \count(\array_unique($this->gen_cards)); // 9
     $unique_ccs = ($ccs * 100) / $total;
 
     $luhn = 0;
