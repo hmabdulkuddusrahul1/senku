@@ -41,7 +41,7 @@ class Dni
     $res = $this->makeRequest();
     $header = $res->getHeaderResponse('X-RateLimit-Remaining');
 
-    if ($header[0] == 0) {
+    if ($header[0] == 0 || $header[0] == '0') {
       throw new DniErrorException('Se ha alcanzado el limite de peticiones', 429);
     }
     $body = (array) $res->toJson(true, true)->getBody()['consultarResponse']['return'] ?? null;
@@ -49,7 +49,7 @@ class Dni
     if ($body === null) {
       throw new DniErrorException('Error al obtener el DNI', 500);
     } elseif ($body['coResultado'] != '0000') {
-      throw new DniNotFoundException($body['deResultado'], 404);
+      throw new DniNotFoundException($body['deResultado']??'Not found', 404);
     } else {
       return $body['datosPersona'];
     }

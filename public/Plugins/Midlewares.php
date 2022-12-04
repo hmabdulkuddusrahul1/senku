@@ -30,9 +30,13 @@ class Midlewares
     }
   }
 
+  /**
+   * api down
+   */
   public function chatBot(Methods $bot, Commands $cmd)
   {
-    if (empty($this->getCommand($cmd)) && !empty($cmd->getText()) && $cmd->getChatType() == 'private') {
+    return;
+    if ($this->getCommand($cmd) == '' && !empty($cmd->getText()) && $cmd->getChatType() == 'private') {
       $safone = new Client;
 
       $res = $safone->chatBot($cmd->getText(), $cmd->getUserId(), $cmd->bot_username)
