@@ -51,17 +51,24 @@ class CardGen extends Message
       return $bot->sendMessage($cmd->getChatId(), i(b('Use another extra')).n().i($e->getMessage()));
     }
 
-    return $bot->sendMessage($cmd->getChatId(), \implode(n(), $gen));
+    $result = array_map(function ($item) {
+      return code($item);
+    }, $gen);
+    return $bot->sendMessage($cmd->getChatId(), \implode(n(), $result));
   }
 
   protected function gen(array $genInput): array
   {
     $gen = new ModelsCardGen();
-    $arr = $genInput;
 
-    while (\count($arr) < 4) {
-      $arr[] = 'rnd';
+    while (\count($genInput) < 4) {
+      $genInput[] = 'rnd';
     }
-    return $gen->Gen(...$arr);
+
+    if (Numbers::isNumber($genInput[2]) && \strlen($genInput[2]) === 2) {
+      $genInput[2] = '20' . $genInput[2];
+    }
+
+    return $gen->Gen(...$genInput);
   }
 }

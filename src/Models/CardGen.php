@@ -51,9 +51,10 @@ class CardGen
 
   public function SetCard(string $cc): CardGen
   {
-    $cc = \str_replace(' ', '', $cc);
     $length = (int) \strlen($cc);
-    if ($length < 6 OR $length > 16) throw new UnexpectedValueException('Invalid card length ('.$length.')');
+    if ($length < 6 OR $length > 16) {
+      throw new UnexpectedValueException('Invalid card length (' . $length . ')');
+    }
 
     $this->card['cc'] = $cc;
     $prex = \substr($cc, 0, 1);
@@ -68,11 +69,13 @@ class CardGen
   {
     $this->card['mm'] = $mes;
 
-    if (!Numbers::isNumber($mes))
+    if (!Numbers::isNumber($mes)) {
+      $this->card['mm'] = 'rnd';
       return $this;
+    }
 
     if (!empty($mes) && ($mes < 1 || $mes > 12)) {
-      throw new UnexpectedValueException('Invalid mounth');
+      throw new UnexpectedValueException('Invalid month');
     }
     return $this;
   }
@@ -81,9 +84,10 @@ class CardGen
   {
     $this->card['yy'] = $year;
 
-    if (!Numbers::isNumber($year))
+    if (!Numbers::isNumber($year)) {
+      $this->card['yy'] = 'rnd';
       return $this;
-
+    }
     if (!empty($year) && ($year < \date('Y') || $year > \date('Y') + 10)) {
       throw new UnexpectedValueException('Invalid year');
     } elseif (\strlen($year) != 4 && !empty($year)) {
@@ -200,7 +204,7 @@ class CardGen
     } elseif ($this->card['yy'] == \date('Y')) {
       $month = \mt_rand(\date('m'), 12);
     } else {
-      $month = \mt_rand(0, 12);
+      $month = \mt_rand(1, 12);
     }
     return str_pad($month, 2, '0', STR_PAD_LEFT);
   }
@@ -209,7 +213,7 @@ class CardGen
   {
     $year = $this->quitString($this->card['yy']);
     $actualYear = \date('Y');
-    if (!empty($year)) {
+    if (!empty($year) && \strlen($year) > 2) {
       return $this->complete($year, 4, substr($actualYear, -1));
     } else {
       return \mt_rand($actualYear, $actualYear + 10);
