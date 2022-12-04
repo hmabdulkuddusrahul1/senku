@@ -38,7 +38,7 @@ $commands->CmdMessage('start', 'Messages\Start@send', [$bot])
   ->CmdMessage('write', 'Messages\Write@send', [$bot])
   ->CmdMessage(['clima', 'wheater'], 'Messages\Clima@send', [$bot])
   ->CmdMessage(['google', 'g'], 'Messages\Google@start', [$bot])
-  # ->CmdMessage(['gen', 'ccgen'], 'Messages\CardGen@start', [$bot]) // Falta la extracción y validación
+  ->CmdMessage(['gen', 'ccgen'], 'Messages\CardGen@start', [$bot]) // Falta la extracción y validación
   ->CmdMessage(['cmds', 'help'], 'Messages\Start@myCommands', [$bot])
   ->CmdMessage(['youtube', 'yt'], 'Messages\Youtube@start', [$bot])
   ->CmdMessage(['tr', 'traduct'], 'Messages\Traduct@start', [$bot])
