@@ -74,8 +74,14 @@ class CardGen
       return $this;
     }
 
+    $mes = (int) $mes;
+    $this->card['mm'] = $mes;
+
     if (!empty($mes) && ($mes < 1 || $mes > 12)) {
       throw new UnexpectedValueException('Invalid month');
+    }
+    if (!empty($this->card['yy']) && $this->card['yy'] == date("Y") && $mes < date("n")) {
+      throw new UnexpectedValueException('Expired month');
     }
     return $this;
   }
@@ -111,7 +117,7 @@ class CardGen
 
   public function Gen(?string $cc = null, ?string $mes = null, ?string $year = null, ?string $cvv = null): array
   {
-    $this->SetCard($cc ?? $this->card['cc'])->SetMonth($mes ?? $this->card['mm'])->SetYear($year ?? $this->card['yy'])->SetCVV($cvv ?? $this->card['cvv']);
+    $this->SetCard($cc ?? $this->card['cc'])->SetYear($year ?? $this->card['yy'])->SetMonth($mes ?? $this->card['mm'])->SetCVV($cvv ?? $this->card['cvv']);
 
     $cards = [];
     for ($i=0; $i < 100; $i++) {
