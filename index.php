@@ -16,7 +16,8 @@ Connection::addCharset();
 $bot = (new Methods($_ENV['BOT_TOKEN']));#->setTestEnviroment(true);
 $bot->timeout = 50;
 
-$commands = (new Commands('\Senku\Commands', ['!', '.', '/']))->setBotUsername($_ENV['BOT_USER']);
+$commands = new Commands('\Senku\Commands', ['!', '.', '/']);
+$commands->setBotUsername($_ENV['BOT_USER']);
 $cli = new CliApp;
 $runner = new Runner($commands);
 

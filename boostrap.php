@@ -31,7 +31,8 @@ $commands->CmdCallback('clima', 'Callbacks\reloadClima@edit', [$bot])
   ->CmdCallback('coin', 'Callbacks\reloadCrypto@edit', [$bot])
   ->CmdCallback('bin', 'Callbacks\Bin@start', [$bot])
   ->CmdCallback('ip', 'Callbacks\IpMap@edit', [$bot])
-  ->CmdCallback('tr', 'Callbacks\TranslateService@alternate', [$bot]);
+  ->CmdCallback('tr', 'Callbacks\TranslateService@alternate', [$bot])
+  ->CmdCallback('gen', 'Callbacks\CardGen@start', [$bot]);
 
 $commands->CmdInline('bin', 'Inline\Bin@start', [$bot])
   ->CmdInline('wiki', 'Inline\Wiki@start', [$bot]);

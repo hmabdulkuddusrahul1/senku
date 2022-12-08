@@ -2,11 +2,11 @@
 
 namespace Senku\Commands\Messages;
 
-use Mateodioev\Bots\Telegram\Methods;
+use Mateodioev\Bots\Telegram\{Methods, Buttons};
 use Mateodioev\Senku\Models\CardGen as ModelsCardGen;
 use Mateodioev\TgHandler\Commands;
-use Mateodioev\Utils\fakeStdClass;
-use Mateodioev\Utils\Numbers;
+use Mateodioev\Utils\{fakeStdClass, Numbers};
+use Senku\Commands\Plugins\Bin;
 
 use function Mateodioev\Senku\{b, code, i, n};
 
@@ -45,15 +45,23 @@ class CardGen extends Message
       $card = $toGen[0];
       $this->validatePrefix($card[0]);
       $gen = $this->gen($toGen);
+      
+      (new Bin)->search(\substr($card, 0, 6));
     } catch (\UnexpectedValueException $e) {
       return $bot->sendMessage($cmd->getChatId(), i('Invalid input ⚠️').n().'Error: ' . b($e->getMessage()));
     } catch (\RuntimeException $e) {
       return $bot->sendMessage($cmd->getChatId(), i(b('Use another extra')).n().i($e->getMessage()));
     }
 
-    $result = array_map(function ($item) {
+    $result = \array_map(function ($item) {
       return code($item);
-    }, $gen);
+    }, $gen[0]);
+
+    $bot->AddOpt([
+      'reply_markup' => (string) Buttons::create()
+        ->addCeil(['text' => '🔄 Gen again', 'callback_data' => 'gen ' . $cmd->getUserId() . ' ' . implode('|', $gen[1])])
+        ->addCeil(['text' => 'ℹ️ Bin info', 'callback_data' => 'bin search ' . \substr($gen[1][0], 0, 6)])
+    ]);
     return $bot->sendMessage($cmd->getChatId(), \implode(n(), $result));
   }
 
@@ -69,6 +77,6 @@ class CardGen extends Message
       $genInput[2] = '20' . $genInput[2];
     }
 
-    return $gen->Gen(...$genInput);
+    return [$gen->Gen(...$genInput), $genInput];
   }
 }
