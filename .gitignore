@@ -4,5 +4,4 @@
 /.vscode/
 /logs/
 
-composer.lock
-*.env
+.env
